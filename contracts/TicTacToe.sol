@@ -1,5 +1,5 @@
 pragma solidity ^0.4.17;
-contract TicTacToe{
+contract Tic{
 
     struct Game {
         address player1;
@@ -10,7 +10,7 @@ contract TicTacToe{
         address turn;
     }
 
-    mapping(uint => Game) myGame;
+
 
     uint id =0;
     uint availS = 9;
@@ -39,6 +39,7 @@ contract TicTacToe{
 
     function makeMove( address _player, uint8 _xy) public returns (bool) { // will return true if one player won and game is over
         WhoMadeTheMove(_player);
+        ShowTurn(_player);
         require(availS!=0);
         Game memory g = games[id];
         require(msg.sender == _player);
@@ -46,38 +47,20 @@ contract TicTacToe{
         require(g.board[_xy] == 0);
         require(g.hasWon != true);
         games[id].board[_xy] = _player;
-        //games[id].turn = _player == g.player1 ? g.player2 : g.player1;// wth is this doing
+        games[id].turn = _player == g.player1 ? g.player2 : g.player1;
+
+        ShowTurn(games[id].turn);
 
 
         if(checkWin(g, _player) == true){
             FoundWinner(_player);
-            g.winner = _player;
-            g.hasWon = true;
+            games[id].winner = _player;
+            games[id].hasWon = true;
 
             return true;
         }
 
-
-        if(g.hasWon == false){
-            address myTurn;
-            if(games[id].turn == g.player1 ){
-
-                myTurn= g.player2;
-                ShowTurn(myTurn);
-            }else{
-                myTurn=g.player1;
-                ShowTurn(myTurn);
-            }
-
-            games.push(Game(g.player1,g.player2, games[id].board,0,false,myTurn));
-            ShowMEWhatIJustPushed(g.player1,g.player2, games[id].board,0,false,myTurn);
-            id++;
-
-            return false;
-
-        }
-
-
+        return false;
     }
 
     function setWinner(Game _g, address _winner) private pure returns (bool) {
