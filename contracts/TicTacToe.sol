@@ -12,9 +12,6 @@ contract Tic{
 
 
 
-    uint id =0;
-    // uint availS = 9;
-
     Game[] public games;
 
     event WhoMadeTheMove(address);
@@ -37,8 +34,8 @@ contract Tic{
 
 
 
-    function makeMove( uint8 _xy) public returns (bool) { // will return true if one player won and game is over
-        WhoMadeTheMove(msg.sender);
+    function makeMove( uint8 _xy, uint id) public returns (bool) { // will return true if one player won and game is over
+        WhoMadeTheMove(msg.sender);     // id is for which game you are playing
         ShowTurn(msg.sender);
 
         Game memory g = games[id];
@@ -70,15 +67,6 @@ contract Tic{
     }
 
 
-    // function availableSPots(Game _game) private returns (uint) {
-    //     for(uint i=0; i<=9; i++){
-    //         if(_game.board[i]== 0){
-    //             availS --;
-    //         }
-    //     }
-
-    //     return availS;
-    // }
 
     function checkWin(Game _game, address _player) private  returns (bool) {
 
