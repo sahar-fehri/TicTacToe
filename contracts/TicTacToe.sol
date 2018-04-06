@@ -1,5 +1,5 @@
 pragma solidity ^0.4.17;
-contract Tic{
+contract TicTacToe{
 
     struct Game {
         address player1;
@@ -26,25 +26,17 @@ contract Tic{
 
     function createGame(address _p1, address _player2) public {
         address[9] memory board;
-
-       // address[] memory board = new address[](9);
-
         games.push(Game(_p1, _player2, board, 0, false, _p1));
 
 
     }
 
-    function getBoard(uint _idGame) view returns(address[9]){
-        return games[_idGame].board;
-    }
 
 
 
-
-
-    function makeMove( uint8 _xy, uint id) public returns (bool) { // will return true if one player won and game is over
-        WhoMadeTheMove(msg.sender);     // id is for which game you are playing
-        ShowTurn(msg.sender);
+    function makeMove( uint8 _xy, uint id) public { // will return true if one player won and game is over
+        // WhoMadeTheMove(msg.sender);     // id is for which game you are playing
+        //ShowTurn(msg.sender);
 
         Game memory g = games[id];
 
@@ -55,17 +47,17 @@ contract Tic{
         games[id].turn = msg.sender == g.player1 ? g.player2 : g.player1;
 
         ShowTurn(games[id].turn);
-
+        g = games[id];
 
         if(checkWin(g, msg.sender) == true){
             FoundWinner(msg.sender);
             games[id].winner = msg.sender;
             games[id].hasWon = true;
 
-            return true;
+
         }
 
-        return false;
+
     }
 
     function setWinner(Game _g, address _winner) private returns (bool) {
@@ -95,5 +87,14 @@ contract Tic{
             return false;
         }
 
+    }
+
+    function getBoard (uint id) public view returns (address[9]) {
+
+
+        address[9] memory board = games[id].board;
+
+
+        return board;
     }
 }
