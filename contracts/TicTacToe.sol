@@ -26,10 +26,18 @@ contract Tic{
 
     function createGame(address _p1, address _player2) public {
         address[9] memory board;
+
+       // address[] memory board = new address[](9);
+
         games.push(Game(_p1, _player2, board, 0, false, _p1));
 
 
     }
+
+    function getBoard(uint _idGame) view returns(address[9]){
+        return games[_idGame].board;
+    }
+
 
 
 

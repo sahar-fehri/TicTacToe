@@ -16,12 +16,9 @@ contract('tictactoe', function (accounts) {
                 return val.createGame(accounts[0],accounts[1],{from : accounts[0]});
 
 
-            }).then(function () {
-                return this.inst.games.call(0)
-
             }).then(function (g) {
                 console.log('this is the game u pushed after calling create game',g)
-                return this.inst.makeMove.sendTransaction(0,0, {from: accounts[0]})
+               // return this.inst.makeMove.sendTransaction(0,0, {from: accounts[0]})
             })
         
     })
