@@ -83,8 +83,27 @@ contract('tictactoe', function (accounts) {
 
         assert.equal(myBoard[1],accounts[0])
 
+    })
 
+    it("should test  if the winner is set ",async function(){
+        let myGame4 = await inst.games.call(4)
+        console.log('gggggggggggggggggggggggg',myGame4)
+        let makeMove1= await inst.makeMove(0,4, {from: accounts[0]})
 
+        let makeMove2= await inst.makeMove(6,4, {from: accounts[1]})
+
+        let makeMove11= await inst.makeMove(1,4, {from: accounts[0]})
+
+        let makeMove22 = await inst.makeMove(4,4, {from: accounts[1]})
+
+        let makeMove12= await inst.makeMove(2,4, {from: accounts[0]})
+
+        numberOfEvents = makeMove12.logs.length
+        assert.equal(numberOfEvents, 2)
+        ShowTurn = (makeMove12.logs[0].args.d)
+        FoundWinner = makeMove12.logs[1].args.c
+        assert.equal(ShowTurn,accounts[1])
+        assert.equal(FoundWinner,accounts[0])
 
     })
 

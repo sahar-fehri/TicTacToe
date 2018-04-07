@@ -56,9 +56,11 @@ contract TicTacToe{
             games[id].hasWon = true;
 
 
+        }else{
+            TieGameStill('No winners yet');
         }
 
-    TieGameStill('No winners yet');
+
 
 
     }
