@@ -14,11 +14,12 @@ contract TicTacToe{
 
     Game[] public games;
 
-    event WhoMadeTheMove(address);
-    event EnterWinnerCheck(address);
-    event FoundWinner(address);
-    event ShowTurn(address);
-    event ShowMEWhatIJustPushed(address,address,address[9],address,bool,address);
+    event WhoMadeTheMove(address a);
+    event EnterWinnerCheck(address b);
+    event FoundWinner(address c);
+    event ShowTurn(address d);
+    event ShowMEWhatIJustPushed(address e,address f,address[9] g,address h ,bool i ,address j);
+    event TieGameStill(string random);
 
 
 
@@ -56,6 +57,8 @@ contract TicTacToe{
 
 
         }
+
+    TieGameStill('No winners yet');
 
 
     }
