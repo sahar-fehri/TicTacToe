@@ -1,7 +1,8 @@
 var tictactoe = artifacts.require("./TicTacToe.sol");
-
-
 var inst;
+
+
+
 contract('tictactoe', function (accounts) {
 
 
