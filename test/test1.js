@@ -17,18 +17,8 @@ contract('tictactoe', function (accounts) {
 
 
     it("should make one of the players win ", function () {
-        // return tictactoe
-        //         .deployed()
-        //         .then(function (instance) {
-        //             inst = instance;
                     console.log('this is contract address', inst.address)
-                    //return inst.createGame(accounts[0],accounts[1],{from : accounts[0]})
-
-               // })
-                //.then(function () {
                     return inst.games.call(0)
-
-               // })
                 .then(function (g) {
                     console.log('this is the game u pushed after calling create game',g)
                     return inst.makeMove.sendTransaction(0,0, {from: accounts[0]})
@@ -113,7 +103,6 @@ contract('tictactoe', function (accounts) {
     it('should fire an event telling that the game is tied', function () {
         console.log('addddddddddddddddd', inst.address)
         console.log('acccc', accounts[0])
-        //return inst.makeMove.sendTransaction(0,0, {from:accounts[0], gas:5600000})
             return inst.games.call(1)
             .then(function (val) {
                 console.log('----',val)
