@@ -25,9 +25,9 @@ contract TicTacToe{
 
 
 
-    function createGame(address _p1, address _player2) public {
+    function createGame(address _player1, address _player2) public {
         address[9] memory board;
-        games.push(Game(_p1, _player2, board, 0, false, _p1));
+        games.push(Game(_player1, _player2, board, 0, false, _player1));
 
 
     }
@@ -35,9 +35,9 @@ contract TicTacToe{
 
 
 
-    function makeMove( uint8 _xy, uint id) public { // will return true if one player won and game is over
+    function makeMove(  uint id, uint8 _xy) public { // will return true if one player won and game is over
         // WhoMadeTheMove(msg.sender);     // id is for which game you are playing
-        //ShowTurn(msg.sender);
+
 
         Game memory g = games[id];
 

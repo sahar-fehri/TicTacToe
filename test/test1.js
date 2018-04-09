@@ -16,40 +16,10 @@ contract('tictactoe', function (accounts) {
     });
 
 
-    it("should make one of the players win ", function () {
-                    console.log('this is contract address', inst.address)
-                    return inst.games.call(0)
-                .then(function (g) {
-                    console.log('this is the game u pushed after calling create game',g)
-                    return inst.makeMove.sendTransaction(0,0, {from: accounts[0]})
-                }).then(()=>{
-                return inst.games.call(0)
-            }).then(function (g) {
-            console.log('this is the game u pushed after calling create game  ',g)
-            return inst.makeMove.sendTransaction(5,0, {from: accounts[1]})
-        }).then(function (g) {
-            console.log('this is the game u pushed after calling create game tx',g)
-            return inst.makeMove.sendTransaction(1,0, {from: accounts[0]})
-        }).then(function (g) {
-            console.log('this is the game u pushed after calling create game tx',g)
-            return inst.makeMove.sendTransaction(3,0, {from: accounts[1]})
-        }).then(function (g) {
-            console.log('this is the game u pushed after calling create game tx',g)
-            return inst.makeMove.sendTransaction(2,0, {from: accounts[0]})
-        }).then(function (g) {
-            return inst.games.call(0)
-        }).then(function (g) {
-            console.log('fffffffffffffffffff',g)
-            assert.equal(accounts[0], g[2], ' two addresses should be equal to winner')
-
-        })
-
-    })
-
     it("should test the create game ", async function() {
         let myGame = await inst.createGame(accounts[3],accounts[4],{from : accounts[0]})
-        let pushedG = await inst.games.call(2)
-        console.log('awwwwwwwwwwwwwwwwww', pushedG)
+        let pushedG = await inst.games.call(1)
+        console.log('The game you just pushed', pushedG)
         assert.equal(pushedG[0], accounts[3],' first player address')
         assert.equal(pushedG[1], accounts[4], 'second player address')
         assert.equal(pushedG[2], 0)
@@ -59,34 +29,33 @@ contract('tictactoe', function (accounts) {
     })
 
     it("should make a move", async function(){
-        let mygame3 = await inst.games.call(3)
-        let myMove = await inst.makeMove(1,3, {from: accounts[0]})
-        console.log('moooooooooooove',myMove)
+        let mygame3 = await inst.games.call(2)
+        let myMove = await inst.makeMove(2,1, {from: accounts[0]})
+        console.log('the move',myMove)
          numberOfEvents = myMove.logs.length
         console.log('number of events', numberOfEvents)
         ShowTurn = (myMove.logs[0].args.d)
-        console.log('11111111111111111',typeof ShowTurn)
         assert.equal(ShowTurn,(accounts[1]))
         TieGameStill = myMove.logs[1].args.random
         assert.equal(TieGameStill,'No winners yet')
-        let myBoard = await inst.getBoard.call(3)
+        let myBoard = await inst.getBoard.call(2)
 
         assert.equal(myBoard[1],accounts[0])
 
     })
 
     it("should test  if the winner is set ",async function(){
-        let myGame4 = await inst.games.call(4)
-        console.log('gggggggggggggggggggggggg',myGame4)
-        let makeMove1= await inst.makeMove(0,4, {from: accounts[0]})
+        let myGame3 = await inst.games.call(3)
+        console.log('this is the game',myGame3)
+        let makeMove1= await inst.makeMove(3,0, {from: accounts[0]})
 
-        let makeMove2= await inst.makeMove(6,4, {from: accounts[1]})
+        let makeMove2= await inst.makeMove(3,6, {from: accounts[1]})
 
-        let makeMove11= await inst.makeMove(1,4, {from: accounts[0]})
+        let makeMove11= await inst.makeMove(3,1, {from: accounts[0]})
 
-        let makeMove22 = await inst.makeMove(4,4, {from: accounts[1]})
+        let makeMove22 = await inst.makeMove(3,4, {from: accounts[1]})
 
-        let makeMove12= await inst.makeMove(2,4, {from: accounts[0]})
+        let makeMove12= await inst.makeMove(3,2, {from: accounts[0]})
 
         numberOfEvents = makeMove12.logs.length
         assert.equal(numberOfEvents, 2)
@@ -94,6 +63,13 @@ contract('tictactoe', function (accounts) {
         FoundWinner = makeMove12.logs[1].args.c
         assert.equal(ShowTurn,accounts[1])
         assert.equal(FoundWinner,accounts[0])
+        console.log('*****************************************************************************************************')
+        let myBoard = await inst.getBoard(3)
+
+        console.log(myBoard[0], '||', myBoard[1],'||', myBoard[2])
+        console.log(myBoard[3], '||', myBoard[4],'||', myBoard[5])
+        console.log(myBoard[6], '||', myBoard[7],'||', myBoard[8])
+        console.log('*****************************************************************************************************')
 
     })
 
@@ -101,35 +77,33 @@ contract('tictactoe', function (accounts) {
 
 
     it('should fire an event telling that the game is tied', function () {
-        console.log('addddddddddddddddd', inst.address)
-        console.log('acccc', accounts[0])
-            return inst.games.call(1)
+            return inst.games.call(4)
             .then(function (val) {
                 console.log('----',val)
             }).then(function (g) {
-                    return inst.makeMove.sendTransaction(0,1, {from: accounts[0]})
+                    return inst.makeMove.sendTransaction(4,0, {from: accounts[0]})
                 })
 
                 .then(function () {
-                    return inst.makeMove.sendTransaction(4,1, {from: accounts[1]})
+                    return inst.makeMove.sendTransaction(4,4, {from: accounts[1]})
                 }).then(function () {
-                    return inst.makeMove.sendTransaction(1,1, {from: accounts[0]})
+                    return inst.makeMove.sendTransaction(4,1, {from: accounts[0]})
                 }).then(function () {
-                    return inst.makeMove.sendTransaction(2,1, {from: accounts[1]})
+                    return inst.makeMove.sendTransaction(4,2, {from: accounts[1]})
                 }).then(function () {
-                    return inst.makeMove.sendTransaction(6,1, {from: accounts[0]})
+                    return inst.makeMove.sendTransaction(4,6, {from: accounts[0]})
                 })
                  .then(function () {
-                    return inst.makeMove.sendTransaction(3,1, {from: accounts[1]})
+                    return inst.makeMove.sendTransaction(4,3, {from: accounts[1]})
                  })
                      .then(function () {
-                     return inst.makeMove.sendTransaction(5,1, {from: accounts[0]})
+                     return inst.makeMove.sendTransaction(4,5, {from: accounts[0]})
                  })
                           .then(function () {
-                     return inst.makeMove.sendTransaction(8,1, {from: accounts[1]})
+                     return inst.makeMove.sendTransaction(4,8, {from: accounts[1]})
                  })
                     .then(function () {
-                     return inst.makeMove(7,1, {from: accounts[0]})
+                     return inst.makeMove(4,7, {from: accounts[0]})
                  })
                 .then(function (result) {
 
@@ -144,9 +118,9 @@ contract('tictactoe', function (accounts) {
                 })
                 
                 .then(function () {
-                    return inst.games.call(1)
+                    return inst.games.call(4)
                 }).then(function (g) {
-                    console.log('looooooooooosst gameee', g)
+                    console.log('this game is even', g)
                 })
 
     })
